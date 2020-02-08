@@ -51,3 +51,7 @@ register_deactivation_hook( __FILE__, 'taskbook_remove_capabilities' );
  */
 require_once plugin_dir_path( __FILE__ ) . 'includes/status.php';
 
+/**
+ * Register CMB2 metaboxes and fields.
+ */
+require_once plugin_dir_path( __FILE__ ) . 'includes/CMB2-functions.php';
