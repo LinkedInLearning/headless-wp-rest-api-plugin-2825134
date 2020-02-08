@@ -36,6 +36,28 @@ function taskbook_limit_rest_view_to_logged_in_users( $is_allowed, $cmb_controll
 	return $is_allowed;
 }
 
+/**
+ * Manually render a task status field.
+ *
+ * @param  array      $field_args Array of field arguments.
+ * @param  CMB2_Field $field      The field object.
+ */
+ function taskbook_status_cb( $field_args, $field ) {
+	$classes     = $field->row_classes();
+	$label       = $field->args( 'name' );
+    $status      = get_post_meta( get_the_ID(), 'task_status', true );
+	?>
+	<div class="cmb-row custom-field-row <?php echo esc_attr( $classes ); ?>">
+		<div class="cmb-th">
+            <label><?php echo esc_attr( $label ); ?></label>
+        </div>
+        <div class="cmb-td">
+            <p><?php echo esc_attr( $status ); ?>
+        </div>
+	</div>
+	<?php
+}
+
 add_action( 'cmb2_init', 'taskbook_register_rest_api_box' );
 /**
  * Hook in and add a box to be available in the CMB2 REST API. Can only happen on the 'cmb2_init' hook.
@@ -100,7 +122,12 @@ function taskbook_register_rest_api_box() {
 			'1' => esc_html__( 'Very stressful', 'taskbook' ),
 		),
 		'before'  => '<p>' . esc_html__( 'What was the actual experience of working with the task like?', 'taskbook' ) . '</p>',
-	) );
+    ) );
 
+    $cmb_rest->add_field( array(
+		'name' => esc_html__( 'Task Status', 'taskbook' ),
+		'id'   => 'taskbook_task_status',
+		'render_row_cb' => 'taskbook_status_cb',
+	) );
 
 }
