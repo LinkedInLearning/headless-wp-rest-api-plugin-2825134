@@ -28,7 +28,8 @@ along with Task Book. If not, see https://www.gnu.org/licenses/gpl.html.
  * Register Task post type.
  */
 require_once plugin_dir_path( __FILE__ ) . 'includes/posttypes.php';
-
+register_activation_hook( __FILE__, 'taskbook_rewrite_flush' );
+ 
 
 /**
  * Register Task Logger role.
